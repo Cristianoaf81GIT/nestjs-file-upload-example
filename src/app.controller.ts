@@ -23,18 +23,7 @@ export class AppController {
   }
 
   @Post('upload')
-  @UseInterceptors(
-    FileInterceptor('file', {
-      storage: diskStorage({
-        destination: './uploads',
-        filename: (_req, file, callback) => {
-          const name = file.originalname.split('.')[0].trim();
-          const ext = file.originalname.split('.')[1].trim();
-          callback(null, `${name}.${ext}`);
-        },
-      }),
-    }),
-  )
+  @UseInterceptors(FileInterceptor('file'))
   uploadFile(@UploadedFile() file: Express.Multer.File) {
     this.logger.verbose(`Nome do arquivo enviado: ${file.originalname}`);
     console.log(file.size);
